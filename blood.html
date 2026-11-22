@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>রক্তদান কর্নার – সুস্থ হবো</title>
+<meta name="description" content="জরুরি রক্তের অনুরোধ দিন, এলাকা ও গ্রুপ অনুযায়ী রক্তদাতা খুঁজুন, অথবা রক্তদাতা হিসেবে নিবন্ধন করুন।">
+<meta name="theme-color" content="#006a4e">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div id="site-header"></div>
+<main>
+<section class="cs-hero red"><div class="container">
+  <div class="cs-ic"><svg class="ic"><use href="#i-drop"/></svg></div>
+  <h1>রক্তদান কর্নার</h1>
+  <p>জরুরি রক্ত দরকার? অনুরোধ দিন। রক্ত দিতে চান? নিবন্ধন করুন — একটি ব্যাগ রক্ত বাঁচাতে পারে একটি প্রাণ।</p>
+</div></section>
+<div class="container">
+  <div class="btabs" role="tablist">
+    <button class="on" data-tab="req"><svg class="ic"><use href="#i-siren"/></svg> রক্তের অনুরোধ</button>
+    <button data-tab="donors"><svg class="ic"><use href="#i-users"/></svg> রক্তদাতা খুঁজুন</button>
+    <button data-tab="post"><svg class="ic"><use href="#i-drop"/></svg> রক্ত চাই</button>
+    <button data-tab="me"><svg class="ic"><use href="#i-user"/></svg> আমার তথ্য</button>
+  </div>
+  <div class="msg" id="gmsg" style="margin-top:16px"></div>
+
+  <section class="bp on" id="p-req">
+    <div class="filters">
+      <div class="field"><label>রক্তের গ্রুপ</label><select id="rg"></select></div>
+      <div class="field"><label>বিভাগ</label><select id="rdv"></select></div>
+      <div class="field"><label>জেলা</label><select id="rdi"></select></div>
+      <div class="field" style="display:none"><select id="rup"></select></div>
+      <button class="btn btn-r" id="rgo"><svg class="ic"><use href="#i-search"/></svg> খুঁজুন</button>
+    </div>
+    <div id="rList"></div>
+  </section>
+
+  <section class="bp" id="p-donors">
+    <div class="filters">
+      <div class="field"><label>রক্তের গ্রুপ</label><select id="dg"></select></div>
+      <div class="field"><label>বিভাগ</label><select id="ddv"></select></div>
+      <div class="field"><label>জেলা</label><select id="ddi"></select></div>
+      <div class="field"><label>উপজেলা</label><select id="dup"></select></div>
+      <button class="btn btn-r" id="dgo"><svg class="ic"><use href="#i-search"/></svg> খুঁজুন</button>
+    </div>
+    <div id="dList"></div>
+  </section>
+
+  <section class="bp" id="p-post"><div id="postBox"></div></section>
+  <section class="bp" id="p-me"><div id="meBox"></div></section>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="data.js"></script><script src="app.js"></script><script src="blood.js"></script>
+</body></html>

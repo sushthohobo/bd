@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>নতুন পাসওয়ার্ড – সুস্থ হবো</title>
+<meta name="theme-color" content="#006a4e"><meta name="robots" content="noindex">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<div id="site-header"></div>
+<main class="auth-pane" style="min-height:70vh">
+  <div class="auth-card">
+    <h2 style="margin-bottom:6px">নতুন পাসওয়ার্ড দিন</h2>
+    <p class="small" style="margin-bottom:16px">ইমেইলের লিংক থেকে এসেছেন? নিচে নতুন পাসওয়ার্ড লিখুন।</p>
+    <div class="msg" id="msg"></div>
+    <form id="rf" style="display:none">
+      <div class="field"><label>নতুন পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)</label><input name="p1" type="password" minlength="6" required autocomplete="new-password"></div>
+      <div class="field"><label>আবার লিখুন</label><input name="p2" type="password" minlength="6" required autocomplete="new-password"></div>
+      <button class="btn btn-r btn-block">পাসওয়ার্ড বদলান</button>
+    </form>
+    <p class="small" style="text-align:center;margin-top:14px"><a href="login.html" class="link">← লগইনে ফিরে যান</a></p>
+  </div>
+</main>
+<div id="site-footer"></div>
+<script src="config.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script><script src="data.js"></script><script src="app.js"></script>
+<script>
+Layout.init('login');
+const msg = (t, ok) => { const m = $('#msg'); m.className = 'msg ' + (ok ? 'ok' : 'err'); m.textContent = t; };
+const client = sb();
+if(!client) msg('এই সেবা এখনো চালু হয়নি।', false);
+else {
+  let ready = false;
+  const open = () => { ready = true; $('#rf').style.display = 'block'; };
+  client.auth.onAuthStateChange((ev) => { if(ev === 'PASSWORD_RECOVERY') open(); });
+  client.auth.getSession().then(({ data:{ session } }) => { if(session && /type=recovery/.test(location.hash)) open(); });
+  setTimeout(() => { if(!ready) msg('লিংকটি মেয়াদোত্তীর্ণ বা ভুল। লগইন পেজ থেকে আবার "পাসওয়ার্ড ভুলে গেছেন?" চাপুন।', false); }, 4000);
+  $('#rf').onsubmit = async e => {
+    e.preventDefault(); const f = new FormData(e.target), b = e.target.querySelector('button');
+    if(f.get('p1') !== f.get('p2')) return msg('দুটি পাসওয়ার্ড মিলছে না', false);
+    b.disabled = true;
+    const { error } = await client.auth.updateUser({ password: f.get('p1') });
+    b.disabled = false;
+    if(error) return msg(sbErr(error), false);
+    await client.auth.signOut(); localStorage.removeItem('sh_user');
+    $('#rf').style.display = 'none'; msg('পাসওয়ার্ড বদলেছে! এখন নতুন পাসওয়ার্ডে লগইন করুন।', true);
+  };
+}
+</script>
+</body></html>
